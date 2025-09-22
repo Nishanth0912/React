@@ -1,0 +1,141 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.header{
+    padding: 0px 20px;
+}
+.nav-links>a{
+    font-size: 20px;
+    text-decoration: none;
+}
+
+.social-links{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.social-links>button{
+  min-width: 80px;
+  padding: 5px;
+  font-size: 18px;
+  border-radius: 4px;
+  font-weight: bolder;
+  cursor: pointer;
+}
+
+.social-links>.linkedin{
+    background-color: #0A66C2;
+    color: white;
+}
+
+.social-links>.github{
+    background-color: #1F2328;
+    color: #E8EBEE;
+}
+
+
+/* banner section*/
+.banner{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    padding: 20px;
+}
+
+.banner_image{
+    width: 550px;
+    height: 300px;
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.banner-content h1{
+    margin-bottom: 10px;
+}
+
+.banner-content>p{
+    text-align: justify;
+    margin-bottom: 20px;
+}
+
+.banner-content>input{
+    padding: 5px;
+}
+
+.banner-content>input[type="button"]{
+    width: 60px;
+    background-color: #0A66C2;
+    color: white;
+    margin-left: 2px;
+    cursor: pointer;
+}
+
+
+/* Expertise */
+
+.expertise_header{
+    text-align: center;
+    color:#000 ;
+}
+
+.expertise_card{
+    width: 300px;
+    height: 300px;
+    border: 1px solid black;
+    margin: 0px 20px;
+    border-radius: 4px;
+    padding: 4px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.expertise_card_image>.card_image{
+    width: 290px;
+    height: 200px;
+    border-radius: 5px;
+}
+
+.skills-section{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 30px 0px;  
+}
+
+.expertise_card_content>h4{
+    margin-bottom: 2px;
+}
+
+/* Footer Section */
+.footer_section{
+    margin: 50px 20px 10px 20px;
+    border-bottom: 2px solid black;
+}
+
+.footer_section>.footer_menu{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    list-style-type: none;
+}
+
+.footer_section>.footer_menu>.menu_item{
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.copyright>P{
+    text-align: center;
+    margin:10px 0px;
+}
+
+
+
+
+
