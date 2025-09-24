@@ -7,15 +7,13 @@ import  Skills  from './assets/landing_page/Skills.jsx'
 import './App.css'
 import Footer from './assets/landing_page/Footer.jsx'
 import ClassComp from './components/ClassComp.jsx'
+import User from './assets/landing_page/User.jsx'
 
 function App() {
 
   return (
     <>
-    <Nav/>
-    <Hero/>
-    <Skills/>
-    <Footer/>
+    <User />
     </>
   )
 }
