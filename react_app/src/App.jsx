@@ -5,6 +5,7 @@ import {Routes,Route} from 'react-router-dom'
 import Components from './pages/Components';
 import Hooks from './pages/Hooks';
 import HomePage from './pages/HomePage';
+import HooksTypes from './pages/HooksTypes';
 
 function App() {
   
@@ -15,7 +16,7 @@ function App() {
     <Route path="/" element={<HomePage/>}/>
     <Route path="/components" element={<Components/>}/>
     <Route path="/hooks" element={<Hooks/>}/>
-
+    <Route path="/hookstypes" element={<HooksTypes/>}/>
      </Routes>
     </>
   )

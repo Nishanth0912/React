@@ -34,6 +34,13 @@ const Navbar = () => {
               >
                 Hooks
               </Link>
+
+              <Link 
+                to="/hookstypes" 
+                className="px-6 py-2 rounded-full font-medium hover:bg-white/20 transition-all duration-300 hover:scale-105"
+              >
+                Hooks Types
+              </Link>
             </div>
 
             {/* CTA Button */}

@@ -54,20 +54,20 @@ const Hooks = ()=>{
     const [state,setState]=useState(true);
 
     const process = ()=>{
-    if (state==true) {
-        setState(false)
-    }else{
-        setState(true)
+    setState(!state)
     }
-    }
+
+    const[num,setNum]=useState(0);
+
     return(
     <>
     
-       
-       <p>{state?<div className="flex flex-col justify-center items-center h-150 w-350">
+       <div>
+         <p>{state?<div className="flex flex-col justify-center items-center h-150 w-350">
         <div className="w-50 h-30 bg-amber-500  flex justify-center items-center border-2 my-2">Box</div><button className="p-2 border-2 rounded-xl bg-indigo-800 text-white" onClick={process}>Hide</button></div>:<div className="flex flex-col justify-center items-center h-150 w-350"><button className="p-2 border-2 rounded-xl bg-green-800 text-white" onClick={process}>show</button></div>}</p>
-      
-    
+        </div>
+
+
     </>
     )
 }
