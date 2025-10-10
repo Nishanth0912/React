@@ -13,6 +13,7 @@ const HooksTypes = ()=>{
 
     return(
         <>
+            <div className="py-3 border-2 m-2">
           <h1 className="text-4xl text-center font-bold py-2 text-amber-600">Use State</h1>
           <p className="text-2xl text-center">const[state,setState]=useState()</p>
           <p className="text-2xl text-center">const[state,setState]=useState(18)</p>
@@ -25,12 +26,21 @@ const HooksTypes = ()=>{
           <p className="text-5xl text-blue-700">{fstate}</p>
           <button  className="p-2 border-2 rounded " onClick={result}>Trigger</button>
           </div>
+          </div>
           
 
-          <h1 className="text-4xl text-center font-bold py-2 text-amber-600">Use Effect</h1>
+        <div className="py-3 border-2 m-2">
+        <h1 className="text-4xl text-center font-bold py-2 text-amber-600">Use Effect</h1>
           <p className="text-2xl text-center">useEffect(function res() {
             console.log("Hello from use effect")
-            },[])</p>
+            }) : runs on every render</p>
+          <p className="text-2xl text-center">useEffect(function res() {
+            console.log("Hello from use effect")
+            },[] : runs only once)</p>
+            <p className="text-2xl text-center">useEffect(function res() {
+            console.log("Hello from use effect")
+            },[state] : runs only when state changes)</p>
+        </div>
         </>
     )
 }
