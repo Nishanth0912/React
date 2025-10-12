@@ -9,7 +9,7 @@ function App() {
   const[data,setData]=useState("");
   const[box,setBox]=useState(false);
   const[img,setImg]=useState("");
-
+  const[age,setAge]=useState("");
 
   const collectData = (e)=>{
     const data =e.target.value;
@@ -44,7 +44,9 @@ function App() {
       setImg("")
     }
   }
-  
+
+
+
   return (
     <>
     <div className="flex  justify-center items-center h-130 gap-4 mx-10">
@@ -75,8 +77,14 @@ function App() {
     <input type="text"  onChange={getImage} className="border rounded inline"/>
     <img src={img} className="w-30" />
     </div>
+  
+  
 
+   
+    
     </div>
+
+  
    
     </>
   )
