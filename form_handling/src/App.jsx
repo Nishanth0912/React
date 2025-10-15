@@ -78,9 +78,6 @@ function App() {
     <img src={img} className="w-30" />
     </div>
   
-  
-
-   
     
     </div>
 
