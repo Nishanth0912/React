@@ -1,84 +1,244 @@
 import { useEffect, useState } from "react";
 
-const User = ()=>{
-
-    const [ennodauserdata,setEnnodaUserData]=useState([]);
-    const[ennodasearchdata,setEnnodaSearchData]=useState("")
+const User = () => {
+    const [userData, setUserData] = useState([]);
+    const [searchData, setSearchData] = useState("");
     const [loading, setLoading] = useState(true);
-    
-const getdata = async ()=>{
+    const [genderdata,setGenderData]=useState("");
+    const [filtergender,setFilterGender]=useState([]);
 
-    const data = await fetch("https://dummyjson.com/users");
+    const getdata = async () => {
+        try {
+            // Simulate loading delay for better skeleton effect
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            const data = await fetch("https://dummyjson.com/users");
+            const fetched_data = await data.json();
+            setUserData(fetched_data.users);
+            const all_gender = fetched_data.users.map((e)=> e.gender);
+            const unique_gender = Array.from(new Set(all_gender));
+            setFilterGender(unique_gender);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        } finally {
+            setLoading(false);
+        }
+    }
+    // console.log(filtergender);
 
-    const fetched_data = await data.json();
+    useEffect(() => {
+        getdata();
+    }, []);
 
-    setEnnodaUserData(fetched_data.users);
-    setLoading(false);
-    console.log(fetched_data.users);
-}
+    const getsearch = (e) => {
+        setSearchData(e.target.value);
+    }
 
-useEffect(()=>{
-    getdata();
-},[])
+    const getChange =(e)=>{
+        setGenderData(e.target.value)
+    }
 
-const getsearch = (e)=>{
-   setEnnodaSearchData(e.target.value)
-}
+    const handleSearch = () => {
 
-const handleSearch = ()=>{
-    if(!ennodasearchdata) return ennodauserdata;
+       let filtervalues = userData;
 
-    return ennodauserdata.filter((e)=> e.firstName.toLowerCase().trim().includes(ennodasearchdata.toLowerCase().trim()))
-}
+       if (genderdata !=="") 
+       {
+        filtervalues=filtervalues.filter((e)=> e.gender === genderdata);
+       }
+        
+       
+        if (searchData !== "") 
+        {
+            filtervalues= filtervalues.filter((e)=> e.firstName.toLowerCase().trim().includes(searchData.toLowerCase().trim()));
+        }
 
-const stored = handleSearch();
 
-const SkeletonCard = () => (
-    <div className="bg-white rounded-xl shadow-lg w-72 p-6 text-center border border-gray-200">
-        <div className="flex justify-center mb-4">
-            <div className="w-24 h-24 rounded-full bg-gray-300 animate-pulse"></div>
+        return filtervalues;
+    }
+
+
+
+    const stored = handleSearch();
+
+    // Table Skeleton Component
+    const TableSkeleton = () => (
+        <div className="overflow-x-auto shadow-lg rounded-lg border border-gray-200">
+            <table className="min-w-full bg-white">
+                <thead className="bg-gray-50">
+                    <tr>
+                        {[...Array(8)].map((_, index) => (
+                            <th key={index} className="px-6 py-4 border-b border-gray-200">
+                                <div className="h-4 bg-gray-300 rounded animate-pulse w-3/4 mx-auto"></div>
+                            </th>
+                        ))}
+                    </tr>
+                </thead>
+                <tbody>
+                    {[...Array(6)].map((_, rowIndex) => (
+                        <tr key={rowIndex} className="border-b border-gray-200">
+                            {[...Array(8)].map((_, cellIndex) => (
+                                <td key={cellIndex} className="px-6 py-4">
+                                    <div className="h-4 bg-gray-200 rounded animate-pulse w-full"></div>
+                                </td>
+                            ))}
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </div>
-        <div className="h-4 bg-gray-300 rounded animate-pulse mb-2 w-1/4 mx-auto"></div>
-        <div className="h-6 bg-gray-300 rounded animate-pulse mb-3 w-3/4 mx-auto"></div>
-        <div className="h-4 bg-gray-300 rounded animate-pulse mb-2 w-1/3 mx-auto"></div>
-        <div className="h-4 bg-gray-300 rounded animate-pulse mb-2 w-full"></div>
-        <div className="h-4 bg-gray-300 rounded animate-pulse w-1/4 mx-auto"></div>
-    </div>
-);
+    );
 
-    return(
-        <>
-            <div className="flex flex-col justify-center items-center mb-8 p-6">
-                <h1 className="text-4xl font-bold text-gray-800 mb-6">Users</h1>
-                <input 
-                    type="text" 
-                    placeholder="Search users..." 
-                    className="border-2 border-gray-300 w-96 px-4 py-3 rounded-lg focus:outline-none focus:border-blue-500 text-lg shadow-sm" 
-                    onChange={getsearch} 
-                />
-            </div>
-           <div className="bg-gray-100 min-h-screen p-8 flex flex-wrap justify-center gap-6">
-            {loading ? (
-                Array.from({ length: 12 }).map((_, index) => (
-                    <SkeletonCard key={index} />
-                ))
-            ) : (
-                stored.map((e)=>(
-                    <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition duration-300 w-72 p-6 text-center border border-gray-200" key={e.id}>
-                        <div className="flex justify-center mb-4">
-                            <img src={e.image} alt={e.firstName} className="w-24 h-24 rounded-full object-cover border-4 border-blue-500" />
+    return (
+        <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto">
+                {/* Header Section */}
+                <div className="text-center mb-12">
+                    <h1 className="text-4xl font-bold text-gray-900 mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                        User Management
+                    </h1>
+                    <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+                        Browse and search through our user directory with ease
+                    </p>
+                    
+                    {/* Search Bar */}
+                    <div className="relative flex justify-center items-center  gap-2 max-w-2xl mx-auto">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg className="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
+                            </svg>
                         </div>
-                        <h1 className="text-sm text-gray-500 mb-1">ID: {e.id}</h1>
-                        <h2 className="text-xl font-bold text-gray-800 mb-2">{e.firstName} {e.lastName}</h2>
-                        <h3 className="text-gray-600 mb-1">Age: {e.age}</h3>
-                        <h3 className="text-blue-600 mb-2 truncate">{e.email}</h3>
-                        <h3 className="text-purple-600 font-medium capitalize">{e.gender}</h3>
+                        <input 
+                            type="text" 
+                            placeholder="Search users by first name..." 
+                            className="block w-full pl-10 pr-4 py-4 border border-gray-300 rounded-2xl bg-white shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg transition-all duration-200"
+                            onChange={getsearch} 
+                        />
+                        <select name="gender" 
+                        className="block w-full pl-10 pr-4 py-4 border border-gray-300 rounded-2xl bg-white shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg transition-all duration-200"
+                        onChange={getChange}>
+                            <option value="">Filter by Gender</option>
+                             {
+                                filtergender.map((e,i)=>(
+                                    <option value={e} key={i+1}>{e}</option>
+                                ))
+                             }
+                        </select>
                     </div>
-                ))
-            )}
-             </div>
-        </>
-    )
+
+                    {/* Results Count */}
+                    {!loading && (
+                        <div className="mt-4 text-sm text-gray-500">
+                            Showing {stored.length} of {userData.length} users
+                        </div>
+                    )}
+                </div>
+
+                {/* Table Section */}
+                {loading ? (
+                    <TableSkeleton />
+                ) : (
+                    <div className="bg-white shadow-2xl rounded-2xl overflow-hidden border border-gray-200">
+                        <div className="overflow-x-auto">
+                            <table className="min-w-full divide-y divide-gray-200">
+                                <thead className="bg-gradient-to-r from-gray-50 to-gray-100">
+                                    <tr>
+                                        <th className="px-8 py-5 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                                            ID
+                                        </th>
+                                        <th className="px-8 py-5 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                                            First Name
+                                        </th>
+                                        <th className="px-8 py-5 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                                            Last Name
+                                        </th>
+                                        <th className="px-8 py-5 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                                            Age
+                                        </th>
+                                        <th className="px-8 py-5 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                                            Gender
+                                        </th>
+                                        <th className="px-8 py-5 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                                            Role
+                                        </th>
+                                        <th className="px-8 py-5 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                                            Email
+                                        </th>
+                                        <th className="px-8 py-5 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                                            Phone
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody className="bg-white divide-y divide-gray-200">
+                                    {stored.length === 0 ? (
+                                        <tr>
+                                            <td colSpan="8" className="px-8 py-12 text-center">
+                                                <div className="flex flex-col items-center justify-center">
+                                                    <svg className="w-16 h-16 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                    </svg>
+                                                    <p className="text-lg text-gray-500 font-medium">No users found</p>
+                                                    <p className="text-sm text-gray-400 mt-1">Try adjusting your search terms</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ) : (
+                                        stored.map((user) => (
+                                            <tr 
+                                                key={user.id} 
+                                                className="hover:bg-blue-50 transition-all duration-200 cursor-pointer group"
+                                            >
+                                                <td className="px-8 py-4 whitespace-nowrap">
+                                                    <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                                                        #{user.id}
+                                                    </span>
+                                                </td>
+                                                <td className="px-8 py-4 whitespace-nowrap text-sm font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+                                                    {user.firstName}
+                                                </td>
+                                                <td className="px-8 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                    {user.lastName}
+                                                </td>
+                                                <td className="px-8 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                                        {user.age}
+                                                    </span>
+                                                </td>
+                                                <td className="px-8 py-4 whitespace-nowrap text-sm text-gray-900 capitalize">
+                                                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                                                        user.gender === 'male' 
+                                                            ? 'bg-blue-100 text-blue-800' 
+                                                            : 'bg-pink-100 text-pink-800'
+                                                    }`}>
+                                                        {user.gender}
+                                                    </span>
+                                                </td>
+                                                <td className="px-8 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                                        {user.role || 'User'}
+                                                    </span>
+                                                </td>
+                                                <td className="px-8 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                    <a 
+                                                        href={`mailto:${user.email}`} 
+                                                        className="text-blue-600 hover:text-blue-800 hover:underline transition-colors"
+                                                    >
+                                                        {user.email}
+                                                    </a>
+                                                </td>
+                                                <td className="px-8 py-4 whitespace-nowrap text-sm text-gray-900 font-mono">
+                                                    {user.phone}
+                                                </td>
+                                            </tr>
+                                        ))
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                )}
+            </div>
+        </div>
+    );
 }
 
 export default User;
